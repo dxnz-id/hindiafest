@@ -1,0 +1,28 @@
+{
+  "name": "dxnz/hindiafest",
+  "description": "Web info dan pemesanan tiket pengajian umum",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Dxnz\\Hindiafest\\": "app/",
+      "Dxnz\\Hindiafest\\App\\Controllers\\": "app/Controllers/",
+      "Dxnz\\Hindiafest\\App\\View\\": "app/View/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Dxnz\\Hindiafest\\": "test/"
+    }
+  },
+  "authors": [
+    {
+      "name": "dxnz"
+    }
+  ],
+  "require": {
+    "php": ">=8"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "9.5.8"
+  }
+}

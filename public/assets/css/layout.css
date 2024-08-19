@@ -1,0 +1,217 @@
+/* Navbar */
+.navbar {
+  background-color: var(--color-dark);
+  padding: var(--spacing-unit);
+  box-shadow: var(--box-shadow-medium);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+  @apply bg-primary text-white position-fixed top-0 left-0 w-100 h-16; /* Tetapkan tinggi navbar, misalnya 64px (16 * 4px) */
+  z-index: 1000; /* Pastikan navbar tetap di atas konten */
+}
+
+.navbar .logo {
+  font-family: var(--font-secondary);
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.navbar .menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar .menu li {
+  margin: 0 20px;
+}
+
+.navbar .menu li a {
+  font-family: var(--font-tertiary);
+  font-size: 1rem;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: color 0.3s ease;
+}
+
+.navbar .menu li a:hover {
+  color: var(--color-primary);
+}
+
+.main-content {
+  margin-top: 64px; /* Sesuaikan dengan tinggi navbar */
+  padding: 16px; /* Tambahkan padding agar konten terlihat rapi */
+}
+
+/* Hero Section */
+.hero {
+  background: url("path-to-image.jpg") no-repeat center center/cover;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-text);
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-family: var(--font-secondary);
+  margin-bottom: var(--spacing-unit);
+}
+
+.hero p {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--color-dark);
+  color: var(--color-text);
+  padding: calc(var(--spacing-unit) * 2) 0;
+  text-align: center;
+  box-shadow: var(--box-shadow-medium);
+}
+
+.footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* Card Container */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-unit);
+  justify-content: center;
+}
+
+.card {
+  background-color: var(--color-dark);
+  color: var(--color-text);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-medium);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 300px;
+  margin: var(--spacing-unit);
+}
+
+.card img {
+  max-width: 100%;
+  height: auto;
+}
+
+.card-body {
+  padding: var(--spacing-unit);
+}
+
+.card-title {
+  font-family: var(--font-tertiary);
+  font-size: 1.25rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--color-dark);
+  color: var(--color-text);
+  padding: calc(var(--spacing-unit) * 2);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-heavy);
+  z-index: 1001;
+  display: none;
+}
+
+.modal.is-active {
+  display: block;
+}
+
+.modal-header {
+  font-family: var(--font-tertiary);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  margin-bottom: var(--spacing-unit);
+}
+
+.modal-close {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--color-text);
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  cursor: pointer;
+}
+
+/* Alerts */
+.alert {
+  padding: var(--spacing-unit);
+  border-radius: var(--border-radius);
+  margin-bottom: calc(var(--spacing-unit) * 1.5);
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #28a745;
+  color: #ffffff;
+}
+
+.alert-danger {
+  background-color: #dc3545;
+  color: #ffffff;
+}
+
+.alert-warning {
+  background-color: #ffc107;
+  color: #111;
+}
+
+.alert-info {
+  background-color: #17a2b8;
+  color: #ffffff;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--color-dark);
+  padding: calc(var(--spacing-unit) * 2) 0;
+  text-align: center;
+  box-shadow: var(--box-shadow-medium);
+  position: relative;
+  margin-top: var(--spacing-unit * 2); /* Increased margin for spacing */
+  border-top: 3px solid var(--color-primary);
+}
+
+.footer .footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer p {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+  margin: 0;
+}
