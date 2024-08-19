@@ -2,6 +2,7 @@
 
 namespace Dxnz\Hindiafest\App\Controllers;
 
+use Dxnz\Hindiafest\Core\View;
 use Dxnz\Hindiafest\Models\Ticket;
 use Dxnz\Hindiafest\Models\Event;
 
@@ -19,9 +20,15 @@ class OrderController
   public function showPurchasePage()
   {
     $eventId = $_GET['event_id'];
-    $tickets = $this->ticketModel->getTicketsByEventId($eventId);
-    $event = $this->eventModel->getEventById($eventId); // Method to get event details
-    require 'user/purchase_ticket.php'; // Path to your view file
+    $model = [
+      'title' => 'Hindiafest',
+      'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
+      'eventId' => $_GET['event_id'],
+      'tickets' => $this->ticketModel->getTicketsByEventId($eventId),
+      'event' => $this->eventModel->getEventById($eventId), // Method to get event details
+    ];
+    View::render('user/purchase_ticket', $model);
+    // require '../View/content/user/purchase_ticket.php'; // Path to your view file
   }
 
   public function purchaseTicket()
