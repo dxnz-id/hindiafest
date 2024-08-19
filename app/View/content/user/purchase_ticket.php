@@ -14,6 +14,14 @@
             <input type="hidden" name="ticket_type" value="<?= htmlspecialchars($ticket['ticket_type']) ?>">
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" min="1" max="<?= htmlspecialchars($ticket['quantity']) ?>" required>
+
+            <!-- Add payment method selection -->
+            <label for="payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method" required>
+              <option value="credit_card">Credit Card</option>
+              <option value="gopay">GoPay</option>
+            </select>
+
             <button type="submit" class="btn btn-primary">Buy Now</button>
           </form>
         </div>

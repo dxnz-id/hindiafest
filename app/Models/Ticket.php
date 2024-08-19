@@ -45,6 +45,15 @@ class Ticket
     }
   }
 
+  public static function updateQuantity($ticketId, $quantity)
+  {
+    // Asumsikan Anda memiliki koneksi database yang sudah tersedia
+    $db = Database::getConnection();
+
+    // Update kuantitas tiket di database
+    $stmt = $db->prepare("UPDATE tickets SET quantity = quantity - ? WHERE id = ?");
+    $stmt->execute([$quantity, $ticketId]);
+  }
 
   public function getAllWithTickets()
   {
@@ -70,7 +79,19 @@ class Ticket
 
   public function createOrder($eventId, $ticketType, $quantity, $userId)
   {
-    $stmt = $this->db->prepare("INSERT INTO orders (event_id, ticket_type, quantity, user_id, created_at) VALUES (?, ?, ?, ?, NOW())");
-    return $stmt->execute([$eventId, $ticketType, $quantity, $userId]);
+    $stmt = $this->db->prepare("SELECT price FROM tickets WHERE event_id = ? AND ticket_type = ?");
+    $stmt->execute([$eventId, $ticketType]);
+    $ticket = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    if (!$ticket) {
+      throw new \Exception("Ticket not found.");
+    }
+
+    // Calculate the total amount
+    $totalAmount = $ticket['price'] * $quantity;
+
+    // Insert the order with total amount
+    $stmt = $this->db->prepare("INSERT INTO orders (event_id, ticket_type, quantity, user_id, total_amount, created_at) VALUES (?, ?, ?, ?, ?, NOW())");
+    return $stmt->execute([$eventId, $ticketType, $quantity, $userId, $totalAmount]);
   }
 }

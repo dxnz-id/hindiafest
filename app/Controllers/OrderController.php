@@ -55,4 +55,14 @@ class OrderController
       echo "Error processing your order.";
     }
   }
+
+  public function confirmation()
+  {
+    $model = [
+      'title' => 'Hindiafest',
+      'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
+    ];
+    // Logika lain bisa ditambahkan di sini jika diperlukan.
+    View::render('user/confirmation', $model);
+  }
 }

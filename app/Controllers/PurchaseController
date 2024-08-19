@@ -1,0 +1,58 @@
+<?php
+
+namespace Dxnz\Hindiafest\Controllers;
+
+use Dxnz\Hindiafest\Models\Ticket;
+use Dxnz\Hindiafest\Models\Order;
+use GuzzleHttp\Client; // Jika menggunakan Guzzle untuk HTTP requests
+
+class PurchaseController
+{
+  public function handlePurchase()
+  {
+    $eventId = $_POST['event_id'];
+    $ticketType = $_POST['ticket_type'];
+    $quantity = $_POST['quantity'];
+    $paymentMethod = $_POST['payment_method'];
+
+    // Logika untuk memproses pembelian tiket
+    // ...
+
+    if ($paymentMethod === 'gopay') {
+      $this->processGoPayPayment($eventId, $ticketType, $quantity);
+    } else {
+      // Proses pembayaran dengan metode lain
+    }
+  }
+
+  private function processGoPayPayment($eventId, $ticketType, $quantity)
+  {
+    // Inisialisasi klien GoPay
+    $client = new Client();
+
+    // Set data untuk permintaan GoPay
+    $response = $client->post('https://api.gopay.example.com/v1/transactions', [
+      'json' => [
+        'event_id' => $eventId,
+        'ticket_type' => $ticketType,
+        'quantity' => $quantity,
+        // Tambahkan parameter yang diperlukan sesuai dokumentasi GoPay
+      ],
+      'headers' => [
+        'Authorization' => 'Bearer YOUR_ACCESS_TOKEN', // Ganti dengan token akses Anda
+        'Content-Type' => 'application/json',
+      ],
+    ]);
+
+    $result = json_decode($response->getBody(), true);
+
+    // Tangani hasil dari API GoPay
+    if ($result['status'] === 'success') {
+      // Redirect atau tampilkan halaman konfirmasi pembayaran
+      header('Location: /confirmation');
+    } else {
+      // Tangani kesalahan
+      echo 'Payment failed: ' . htmlspecialchars($result['message']);
+    }
+  }
+}
