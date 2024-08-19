@@ -1,5 +1,5 @@
 <header>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between w-100">
+  <nav class="navbar navbar-expand-lg navbar-light bg-dark justify-content-between w-100">
     <div class="logo">
       <a href="/" class="navbar-brand text-primary">Hindia Fest</a>
     </div>

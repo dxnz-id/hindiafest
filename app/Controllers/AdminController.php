@@ -6,6 +6,7 @@ use Dxnz\Hindiafest\Core\View;
 use Dxnz\Hindiafest\Models\Event;
 use Dxnz\Hindiafest\Models\User;
 use Dxnz\Hindiafest\Models\Ticket;
+use Dxnz\Hindiafest\Models\Exception;
 use Dxnz\Hindiafest\Middleware\AdminMiddleware;
 
 class AdminController
@@ -16,10 +17,10 @@ class AdminController
 
   public function __construct()
   {
-    AdminMiddleware::handle(); // Panggil middleware untuk memeriksa akses admin
+    AdminMiddleware::handle();  // Panggil middleware untuk memeriksa akses admin
     $this->event = new Event();
-    $this->ticket = new Ticket();
     $this->user = new User();
+    $this->ticket = new Ticket();
   }
 
   public function dashboard()
@@ -39,34 +40,74 @@ class AdminController
 
   public function showEvents()
   {
-    $event = new Event();
+    $events = $this->ticket->getAllWithTickets();  // Fetch events with their tickets
     $model = [
       'title' => 'Admin | Events',
       'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
-      'events' => $event->getAll(),
+      'events' => $events,
     ];
     View::render('admin/events', $model);
   }
 
+
   public function addEvent()
   {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $event_name = $_POST['event_name'];
-      $event_date = $_POST['event_date'];
-      $description = $_POST['description'];
-      $location_url = $_POST['location_url'];
+    try {
+      if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        // Get event details from POST data
+        $event_name = $_POST['event_name'];
+        $event_date = $_POST['event_date'];
+        $description = $_POST['description'];
+        $location_url = $_POST['location_url'];
 
-      $this->event->create($event_name, $event_date, $description, $location_url);
-      header('Location: /admin/events');
+        // Create the event
+        $eventId = $this->event->create($event_name, $event_date, $description, $location_url);
+
+        // Check if the event was created successfully
+        if ($eventId) {
+          // Process tickets if any
+          if (isset($_POST['ticket_type']) && is_array($_POST['ticket_type'])) {
+            foreach ($_POST['ticket_type'] as $index => $type) {
+              $ticket_type = $_POST['ticket_type'][$index];
+              $price = $_POST['price'][$index];
+              $quantity = $_POST['quantity'][$index];
+
+              // Create each ticket with the newly created event ID
+              $this->ticket->create($eventId, $ticket_type, $price, $quantity);
+            }
+          }
+          header('Location: /admin/events');
+        } else {
+          echo 'Failed to create event.';
+        }
+      }
+    } catch (Exception $e) {
+      // Display user-friendly error message
+      echo 'An error occurred: ' . $e->getUserMessage();
     }
   }
 
+
+
+
+
   public function deleteEvent()
   {
-    if (isset($_POST['delete_id'])) {
-      $id = $_POST['delete_id'];
-      $this->event->delete($id);
-      header('Location: /admin/events');
+    try {
+      if (isset($_POST['delete_id'])) {
+        $id = $_POST['delete_id'];
+
+        // Call the delete method of the Event model
+        if ($this->event->delete($id)) {
+          header('Location: /admin/events');
+          exit();
+        } else {
+          echo 'Failed to delete event.';
+        }
+      }
+    } catch (\Exception $e) {
+      // Display or log error message
+      echo 'An error occurred: ' . $e->getMessage();
     }
   }
 
@@ -155,40 +196,5 @@ class AdminController
     header('Location: /admin/users');
     exit();
   }
-  public function showTickets($event_id)
-  {
-    $tickets = $this->ticket->getByEventId($event_id);
-
-    $model = [
-      'title' => 'Manage Tickets',
-      'event_id' => $event_id,
-      'tickets' => $tickets,
-      'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
-    ];
-
-    View::render('admin/events', $model);
-  }
-
-  public function addTicket()
-  {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-      $event_id = $_POST['event_id'];
-      $ticket_type = $_POST['ticket_type'];
-      $price = $_POST['price'];
-      $quantity = $_POST['quantity'];
-
-      $this->ticket->create($event_id, $ticket_type, $price, $quantity);
-      header('Location: /admin/tickets/' . $event_id);
-    }
-  }
-
-  public function deleteTicket()
-  {
-    if (isset($_POST['delete_id'])) {
-      $id = $_POST['delete_id'];
-      $event_id = $_POST['event_id'];
-      $this->ticket->delete($id);
-      header('Location: /admin/tickets/' . $event_id);
-    }
-  }
+  // Tambahkan fungsi lainnya untuk admin seperti manage users, events, etc.
 }
