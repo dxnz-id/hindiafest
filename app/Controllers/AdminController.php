@@ -5,17 +5,20 @@ namespace Dxnz\Hindiafest\App\Controllers;
 use Dxnz\Hindiafest\Core\View;
 use Dxnz\Hindiafest\Models\Event;
 use Dxnz\Hindiafest\Models\User;
+use Dxnz\Hindiafest\Models\Ticket;
 use Dxnz\Hindiafest\Middleware\AdminMiddleware;
 
 class AdminController
 {
   private $event;
   private $user;
+  private $ticket;
 
   public function __construct()
   {
-    AdminMiddleware::handle();  // Panggil middleware untuk memeriksa akses admin
+    AdminMiddleware::handle(); // Panggil middleware untuk memeriksa akses admin
     $this->event = new Event();
+    $this->ticket = new Ticket();
     $this->user = new User();
   }
 
@@ -152,5 +155,40 @@ class AdminController
     header('Location: /admin/users');
     exit();
   }
-  // Tambahkan fungsi lainnya untuk admin seperti manage users, events, etc.
+  public function showTickets($event_id)
+  {
+    $tickets = $this->ticket->getByEventId($event_id);
+
+    $model = [
+      'title' => 'Manage Tickets',
+      'event_id' => $event_id,
+      'tickets' => $tickets,
+      'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
+    ];
+
+    View::render('admin/events', $model);
+  }
+
+  public function addTicket()
+  {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+      $event_id = $_POST['event_id'];
+      $ticket_type = $_POST['ticket_type'];
+      $price = $_POST['price'];
+      $quantity = $_POST['quantity'];
+
+      $this->ticket->create($event_id, $ticket_type, $price, $quantity);
+      header('Location: /admin/tickets/' . $event_id);
+    }
+  }
+
+  public function deleteTicket()
+  {
+    if (isset($_POST['delete_id'])) {
+      $id = $_POST['delete_id'];
+      $event_id = $_POST['event_id'];
+      $this->ticket->delete($id);
+      header('Location: /admin/tickets/' . $event_id);
+    }
+  }
 }

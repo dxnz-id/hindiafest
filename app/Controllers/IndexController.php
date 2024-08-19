@@ -11,6 +11,11 @@ class IndexController
   {
     session_start();
 
+    if (!isset($_SESSION['user_id'])) {
+      header('Location: /login');
+      exit;
+    }
+
     // Cek apakah username ada di session
     if (isset($_SESSION['username'])) {
 
@@ -21,11 +26,18 @@ class IndexController
       }
     }
 
+    $userModel = new User();
+    $user = $userModel->findById($_SESSION['user_id']);
+
+    // Prepare the model for the view
     $model = [
-      "title" => "Hindiafest",
-      "username" => isset($_SESSION['username']) ? $_SESSION['username'] : null,
-      "content" => "Welcome to Hindiafest",
+      "title" => "User Dashboard",
+      "username" => $user['username'],
+      "email" => $user['email'],
+      "role" => $user['role'],
     ];
-    View::render('index', $model);
+
+    // Render the view
+    View::render('user/index', $model);
   }
 }
