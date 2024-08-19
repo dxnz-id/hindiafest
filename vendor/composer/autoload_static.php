@@ -29,6 +29,8 @@ class ComposerStaticInit060614b5482813232d51727154b8316c
         'D' => 
         array (
             'Dxnz\\Hindiafest\\App\\View\\' => 25,
+            'Dxnz\\Hindiafest\\App\\Models\\' => 27,
+            'Dxnz\\Hindiafest\\App\\Core\\' => 25,
             'Dxnz\\Hindiafest\\App\\Controllers\\' => 32,
             'Dxnz\\Hindiafest\\' => 16,
             'Doctrine\\Instantiator\\' => 22,
@@ -63,6 +65,14 @@ class ComposerStaticInit060614b5482813232d51727154b8316c
         'Dxnz\\Hindiafest\\App\\View\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/View',
+        ),
+        'Dxnz\\Hindiafest\\App\\Models\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Models',
+        ),
+        'Dxnz\\Hindiafest\\App\\Core\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Core',
         ),
         'Dxnz\\Hindiafest\\App\\Controllers\\' => 
         array (

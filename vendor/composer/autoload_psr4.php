@@ -12,6 +12,8 @@ return array(
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
     'PHPStan\\PhpDocParser\\' => array($vendorDir . '/phpstan/phpdoc-parser/src'),
     'Dxnz\\Hindiafest\\App\\View\\' => array($baseDir . '/app/View'),
+    'Dxnz\\Hindiafest\\App\\Models\\' => array($baseDir . '/app/Models'),
+    'Dxnz\\Hindiafest\\App\\Core\\' => array($baseDir . '/app/Core'),
     'Dxnz\\Hindiafest\\App\\Controllers\\' => array($baseDir . '/app/Controllers'),
     'Dxnz\\Hindiafest\\' => array($baseDir . '/app', $baseDir . '/test'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),

@@ -4,11 +4,13 @@ use Dxnz\Hindiafest\Core\Router;
 use Dxnz\Hindiafest\App\Controllers\IndexController;
 use Dxnz\Hindiafest\App\Controllers\AuthController;
 use Dxnz\Hindiafest\App\Controllers\AdminController;
+use Dxnz\Hindiafest\App\Controllers\OrderController;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../app/Controllers/IndexController.php';
 require_once __DIR__ . '/../app/Controllers/AuthController.php';
 require_once __DIR__ . '/../app/Controllers/AdminController.php';
+require_once __DIR__ . '/../app/Controllers/OrderController.php';
 
 // Router GET
 Router::add('GET', '/', IndexController::class, 'index');
@@ -21,6 +23,10 @@ Router::add('GET', '/admin/events/add', AdminController::class, 'showAddEventFor
 Router::add('GET', '/admin/manage-users', AdminController::class, 'manageUsers');
 Router::add('GET', '/admin/users', AdminController::class, 'showUsers');
 Router::add('GET', '/admin/users/edit', AdminController::class, 'editUser');
+
+// Add ticket purchase routes
+Router::add('GET', '/purchase', OrderController::class, 'showPurchasePage');
+Router::add('POST', '/purchase', OrderController::class, 'purchaseTicket');
 
 // Router POST
 Router::add('POST', '/register', AuthController::class, 'register');

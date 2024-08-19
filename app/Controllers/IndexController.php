@@ -4,6 +4,7 @@ namespace Dxnz\Hindiafest\App\Controllers;
 
 use Dxnz\Hindiafest\Core\View;
 use Dxnz\Hindiafest\Models\User;
+use Dxnz\Hindiafest\Models\Event;
 
 class IndexController
 {
@@ -28,13 +29,14 @@ class IndexController
 
     $userModel = new User();
     $user = $userModel->findById($_SESSION['user_id']);
+    $eventModel = new Event();
 
     // Prepare the model for the view
     $model = [
-      "title" => "User Dashboard",
-      "username" => $user['username'],
-      "email" => $user['email'],
-      "role" => $user['role'],
+      'title' => "User Dashboard",
+      'username' => $user['username'],
+      'role' => $user['role'],
+      'events' => $eventModel->getUpcomingEvents(),
     ];
 
     // Render the view

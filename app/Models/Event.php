@@ -3,6 +3,7 @@
 namespace Dxnz\Hindiafest\Models;
 
 use Dxnz\Hindiafest\Core\Database;
+use PDO;
 
 class Event
 {
@@ -35,7 +36,7 @@ class Event
   {
     $stmt = $this->db->prepare("SELECT * FROM events WHERE id = ?");
     $stmt->execute([$id]);
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 
   // Update an existing event
@@ -76,7 +77,7 @@ class Event
   public function getAll()
   {
     $stmt = $this->db->query("SELECT * FROM events ORDER BY event_date DESC");
-    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
 
   public function getCount()
@@ -84,5 +85,30 @@ class Event
     $query = "SELECT COUNT(*) FROM events"; // Adjust the table name as necessary
     $stmt = $this->db->query($query);
     return $stmt->fetchColumn();
+  }
+
+  public function getUpcomingEvents()
+  {
+    $stmt = $this->db->prepare("SELECT * FROM events WHERE event_date >= CURDATE() ORDER BY event_date ASC");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getEventsWithTickets()
+  {
+    $query = "
+            SELECT e.id, e.event_name, e.event_date, e.description, e.location_url, t.id AS ticket_id, t.ticket_type, t.price, t.quantity FROM events e LEFT JOIN tickets t ON e.id = t.event_id ORDER BY e.event_date DESC";
+
+    $stmt = $this->db->query($query);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getEventById($id)
+  {
+    $query = 'SELECT * FROM events WHERE id = :id';
+    $stmt = $this->db->prepare($query);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
   }
 }

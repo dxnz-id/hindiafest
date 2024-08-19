@@ -5,8 +5,10 @@
   "autoload": {
     "psr-4": {
       "Dxnz\\Hindiafest\\": "app/",
+      "Dxnz\\Hindiafest\\App\\Models\\": "app/Models/",
+      "Dxnz\\Hindiafest\\App\\View\\": "app/View/",
       "Dxnz\\Hindiafest\\App\\Controllers\\": "app/Controllers/",
-      "Dxnz\\Hindiafest\\App\\View\\": "app/View/"
+      "Dxnz\\Hindiafest\\App\\Core\\": "app/Core/"
     }
   },
   "autoload-dev": {

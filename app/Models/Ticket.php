@@ -60,4 +60,17 @@ class Ticket
 
     return $events;
   }
+
+  public function getTicketsByEventId($eventId)
+  {
+    $stmt = $this->db->prepare("SELECT * FROM tickets WHERE event_id = ?");
+    $stmt->execute([$eventId]);
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+  }
+
+  public function createOrder($eventId, $ticketType, $quantity, $userId)
+  {
+    $stmt = $this->db->prepare("INSERT INTO orders (event_id, ticket_type, quantity, user_id, created_at) VALUES (?, ?, ?, ?, NOW())");
+    return $stmt->execute([$eventId, $ticketType, $quantity, $userId]);
+  }
 }
