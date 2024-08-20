@@ -9,7 +9,7 @@
           <p class="card-text"><?= htmlspecialchars($event['description']) ?></p>
           <p class="card-text"><?= date('F j, Y', strtotime($event['event_date'])) ?></p>
           <a href="<?= htmlspecialchars($event['location_url']) ?>" class="btn btn-secondary" target="_blank">Location</a>
-          <a href="purchase?event_id=<?= htmlspecialchars($event['id']) ?>" class="btn btn-primary">Buy Ticket</a>
+          <a href="order?event_id=<?= htmlspecialchars($event['id']) ?>" class="btn btn-primary">Buy Ticket</a>
           <div class="ticket-details">
             <?php if (isset($event['ticket_id'])): ?>
               <p class="card-text">Ticket Type: <?= htmlspecialchars($event['ticket_type']) ?></p>

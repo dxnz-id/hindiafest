@@ -23,13 +23,14 @@ class OrderController
     $model = [
       'title' => 'Hindiafest',
       'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
-      'eventId' => $_GET['event_id'],
+      'eventId' => $eventId,
       'tickets' => $this->ticketModel->getTicketsByEventId($eventId),
-      'event' => $this->eventModel->getEventById($eventId), // Method to get event details
+      'event' => $this->eventModel->getEventById($eventId),
+      'ticketTypes' => $this->ticketModel->getTicketTypesByEventId($eventId) // Menambahkan tipe tiket
     ];
-    View::render('user/purchase_ticket', $model);
-    // require '../View/content/user/purchase_ticket.php'; // Path to your view file
+    View::render('user/order', $model);
   }
+
 
   public function purchaseTicket()
   {

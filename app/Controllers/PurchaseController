@@ -3,11 +3,28 @@
 namespace Dxnz\Hindiafest\Controllers;
 
 use Dxnz\Hindiafest\Models\Ticket;
-use Dxnz\Hindiafest\Models\Order;
+use Dxnz\Hindiafest\Models\Event;
+use Dxnz\Hindiafest\Core\View;
 use GuzzleHttp\Client; // Jika menggunakan Guzzle untuk HTTP requests
 
 class PurchaseController
 {
+  private $tickets;
+  private $event;
+
+  public function showPurchasePage($eventId)
+  {
+    $eventModel = new Event();
+
+    $model = [
+      'title' => 'Hindiafest',
+      'username' => isset($_SESSION['username']) ? $_SESSION['username'] : null,
+      'tickets' => Ticket::getTicketsByEventId($eventId),
+      'event' => $eventModel->getEventsWithTickets(),
+    ];
+    // Implementasikan metode untuk mendapatkan detail acara berdasarkan $eventId
+    View::render('user/purchase', $model);
+  }
   public function handlePurchase()
   {
     $eventId = $_POST['event_id'];
@@ -15,16 +32,24 @@ class PurchaseController
     $quantity = $_POST['quantity'];
     $paymentMethod = $_POST['payment_method'];
 
-    // Logika untuk memproses pembelian tiket
-    // ...
+    // Validasi kuantitas tiket dan proses pembayaran
+    $ticketId = Ticket::getTicketId($ticketType, $eventId);
+    if ($ticketId) {
+      Ticket::validateTicketQuantity($ticketId, $quantity);
 
-    if ($paymentMethod === 'gopay') {
-      $this->processGoPayPayment($eventId, $ticketType, $quantity);
+      // Update kuantitas tiket
+      Ticket::updateQuantity($ticketId, $quantity);
+
+      // Proses pembayaran
+      if ($paymentMethod === 'gopay') {
+        $this->processGoPayPayment($eventId, $ticketType, $quantity);
+      } else {
+        // Proses pembayaran dengan metode lain
+      }
     } else {
-      // Proses pembayaran dengan metode lain
+      echo "Ticket type not found.";
     }
   }
-
   private function processGoPayPayment($eventId, $ticketType, $quantity)
   {
     // Inisialisasi klien GoPay

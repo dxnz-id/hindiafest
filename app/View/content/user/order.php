@@ -11,7 +11,15 @@
           <p class="card-text">Available Quantity: <?= htmlspecialchars($ticket['quantity']) ?></p>
           <form action="/purchase" method="POST">
             <input type="hidden" name="event_id" value="<?= htmlspecialchars($eventId) ?>">
-            <input type="hidden" name="ticket_type" value="<?= htmlspecialchars($ticket['ticket_type']) ?>">
+
+            <!-- Pilihan kategori tiket -->
+            <label for="ticket_type">Ticket Type:</label>
+            <select id="ticket_type" name="ticket_type" required>
+              <?php foreach ($ticketTypes as $type): ?>
+                <option value="<?= htmlspecialchars($type) ?>"><?= htmlspecialchars($type) ?></option>
+              <?php endforeach; ?>
+            </select>
+
             <label for="quantity">Quantity:</label>
             <input type="number" id="quantity" name="quantity" min="1" max="<?= htmlspecialchars($ticket['quantity']) ?>" required>
 

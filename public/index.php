@@ -23,7 +23,7 @@ Router::add('GET', '/admin/events/add', AdminController::class, 'showAddEventFor
 Router::add('GET', '/admin/manage-users', AdminController::class, 'manageUsers');
 Router::add('GET', '/admin/users', AdminController::class, 'showUsers');
 Router::add('GET', '/admin/users/edit', AdminController::class, 'editUser');
-Router::add('GET', '/purchase', OrderController::class, 'showPurchasePage');
+Router::add('GET', '/order', OrderController::class, 'showPurchasePage');
 Router::add('GET', '/confirmation', OrderController::class, 'confirmation');
 
 // Router POST
@@ -34,6 +34,6 @@ Router::add('POST', '/admin/events/add', AdminController::class, 'addEvent');
 Router::add('POST', '/admin/events/delete', AdminController::class, 'deleteEvent');
 Router::add('POST', '/admin/users/delete', AdminController::class, 'deleteUser');
 Router::add('POST', '/admin/users/edit', AdminController::class, 'editUser');
-Router::add('POST', '/purchase', OrderController::class, 'purchaseTicket');
+Router::add('POST', '/order', OrderController::class, 'purchaseTicket');
 
 Router::run();
